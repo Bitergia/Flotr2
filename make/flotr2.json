@@ -12,7 +12,7 @@
       "./js/Graph.js",
       "./js/Axis.js",
       "./js/Series.js",
-      "./js/types/linesNO.js",
+      "./js/types/lines.js",
       "./js/types/bars.js",
       "./js/types/bubbles.js",
       "./js/types/candles.js",
