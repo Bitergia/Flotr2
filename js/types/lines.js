@@ -30,7 +30,7 @@ Flotr.addType('lines', {
     context.save();
     context.lineJoin = 'round';
 
-    if (shadowSize) {
+    if (shadowSize && false) {
 
       context.lineWidth = shadowSize / 2;
       offset = lineWidth / 2 + context.lineWidth / 2;
@@ -77,7 +77,7 @@ Flotr.addType('lines', {
       // To allow empty values
       if (data[i][1] === null || data[i+1][1] === null) {
         if (options.fill) {
-          if (i > 0 && data[i][1] !== null) {
+          if (i > 0 && data[i][1]) {
             context.stroke();
             fill();
             start = null;
@@ -99,17 +99,13 @@ Flotr.addType('lines', {
       if (start === null) start = data[i];
       
       if (stack) {
-        stack1 = stack.values[data[i][0]] || 0;
-        stack2 = stack.values[data[i+1][0]] || stack.values[data[i][0]] || 0;
+        stack1 = stack.values[i] || 0;
+        stack2 = stack.values[i+1] || 0;
+
         y1 = yScale(data[i][1] + stack1);
-        y2 = yScale(data[i+1][1] + stack2);
-        if (incStack) {
-          stack.values[data[i][0]] = data[i][1] + stack1;
-          if (i == length-1) {
-            stack.values[data[i+1][0]] = data[i+1][1] + stack2;
-          }
-        }
-      } else {
+        y2 = yScale(data[i+1][1] + stack2);         
+      }
+      else{
         y1 = yScale(data[i][1]);
         y2 = yScale(data[i+1][1]);
       }
@@ -121,9 +117,8 @@ Flotr.addType('lines', {
         (x1 > width && x2 > width)
       ) continue;
 
-      if ((prevx != x1) || (prevy != y1 + shadowOffset)) {
+      if((prevx != x1) || (prevy != y1 + shadowOffset))
         context.moveTo(x1, y1 + shadowOffset);
-      }
       
       prevx = x2;
       prevy = y2 + shadowOffset;
@@ -152,23 +147,25 @@ Flotr.addType('lines', {
     }
 
     function drawPathRev(data) {
-      for (i = length-1; i >= 0 ; --i) {
+      var j = null;
+      for (j = length-1; j >= 0 ; --j) {
         if (!options.fill) return;
 
         // Empty values not full supported
-        if (!data[i]) return;
-        if (data[i][1] === null) {
-          data[i][1] = 0;
+        if (!data[j]) return;
+        if (data[j][1] === null) {
+          data[j][1] = 0;
         }
 
-        x = xScale(data[i][0]);
-        y = yScale(data[i][1]);
+        x = xScale(data[j][0]);
+        y = yScale(data[j][1]);
 
         if (
           (y > height) || (x > width) ||
           (y < 0) || (x < 0)
         ) return;
         context.lineTo(x, y);
+        context.stroke();
       }          
     }
 
