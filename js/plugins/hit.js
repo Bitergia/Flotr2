@@ -324,6 +324,8 @@ Flotr.addPlugin('hit', {
       mouseTrack.innerHTML = content;
       D.show(mouseTrack);
     }
+    
+    if (container) return;
 
     // Positioning
     size = D.size(mouseTrack);
