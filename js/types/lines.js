@@ -159,6 +159,7 @@ Flotr.addType('lines', {
 
         x = xScale(data[j][0]);
         y = yScale(data[j][1]);
+        if (y < 0) y = 0; 
 
         if (
           (y > height) || (x > width) ||
